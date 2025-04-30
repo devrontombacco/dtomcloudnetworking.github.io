@@ -6,29 +6,30 @@
 -->
 <html>
 	<head>
-		<title>Generic - Editorial by HTML5 UP</title>
+		<title>Devron Tombacco</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
 
-		<!-- Wrapper -->
+		<!-- WRAPPER -->
 			<div id="wrapper">
 
-				<!-- Main -->
+				<!-- MAIN -->
 					<div id="main">
 						<div class="inner">
 
-							<!-- Header -->
+							<!-- HEADER -->
 								<header id="header">
-									<a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+									<!-- <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a> -->
+									<a href="index.html" class="logo">dtcloudnetworking</a>
 									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+										<li><a href="https://www.linkedin.com/in/devrontombacco/" class="icon brands fa-linkedin"><span class="label">Linkedin</span></a></li>
+										<li><a href="https://github.com/devrontombacco" class="icon solid brands fa-github"><span class="label">Github</span></a></li>
+										<!-- <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li> -->
+										 <!-- <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li> -->
+										<!-- <li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li> -->
 									</ul>
 								</header>
 
@@ -38,19 +39,27 @@
 										<h1>Secure Bastion with Private Infrastructure</h1>
 									</header>
 
-									<span class="image main"><img src="images/pic11.jpg" alt="" /></span>
-
+									<span class="image main"><img src="images/bastion_architecture.png" alt="" /></span>
+								</br>
 									<h2>Overview</h2>
 
-									<p>I built a secure AWS environment with public and private subnets. Used a Bastion Host in a public subnet, that can only be accessed by the admin user's IP, to securely SSH into an EC2 instance in a private subnet. I used Security Groups and key pairs to restrict access on the private host.</p>
+									<p>I built a secure AWS environment with a public and private subnet. In the public subnet I used an EC2 instance as a Bastion Host (which can only be accessed by the admin user's IP) to securely SSH into the EC2 instance in the private subnet. I used Security Groups and key pairs to restrict accessed</p>
+								</br>
+									<!-- <hr class="major" /> -->
 
 									<h2>Cloud Architecture</h2>
 
+									<p>I used the below architecture (as shown in the diagram above)</p>
 									<ul>
 										<li>VPC: built with 2 subnets (public/private)</li>
 										<li>Bastion Host: EC2 with strict inbound rules (only my IP)</li>
 										<li>Private EC2: No public IP, only accessible via Bastion</li>
+										<li>1 Route Table per subnet</li>
+										<li>An internet gateway</li>
+										<li>1 availability zone</li>
 									</ul>
+								</br>
+									<!-- <hr class="major" /> -->
 
 									<h2>Software used </h2>
 
@@ -58,34 +67,37 @@
 										<li>Terraform for provisioning the resources</li>
 										<li>Github for tracking the version control</li>
 										<li>Bash for storing environment variables, managing key pairs + SSH-ing into EC2 instsances</li>
+										<li>Tmux: for using several bash panes at the same time (1 for git, 1 for terraform, 1 for creating keypairs etc)</li>
 										<li>VSCode editor</li>
 									</ul>
-									
-									<hr class="major" />
+								</br>
+									<!-- <hr class="major" /> -->
 
 									<h2>Obstacles</h2>
 
-									<p>This is a fun project for anyone starting out as you need to ensure many things work together</p>
+									<p>This is a fun project for anyone starting out as it seems easy at first, but then you need to ensure many things work together</p>
 
-									<p>You quickly realize that environment variables are an issue. You are not going to hardcode them all as this is a security risk. You can of course use a credentials file for your AWS Credentials. But what about the user's IP? It only makes sense to use an environment variable for the user's IP (who is trying to ssh into the Bastion). </p>
+									<p>Environment Variables: quickly realize for instance that if this code is meant for anyone on github to download it and run in on their local machine, you definitely can't hardcode values into your config (not to mention that its a big security risk). Some variables - like the AWS credentials - can be stored locally. But what about the user's IP and/or their keypair? You quickly realize here that it only makes sense to use environment variables</p>
 
-									<hr class="major" />
+									<p>Naming Conventions: Given that there are two of everything (two subnets, two route tables, two security groups etc) you need to ensure you're using a naming convention that makes sense. You need to strike a balance between ensuring meaning is conveyed, but perhaps not making the names too long or cumbersome</p>
 
-									<h2>Magna etiam veroeros</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
-									
-									<hr class="major" />
+									<p>Watch out for how you create resources: When creating my EC2s I did it without attaching security groups to them! Once I then created the SGs and applied them to the EC2s, the Terraform output showed it was destroying and then recreating the resources. I learned then and there that if this were in a production environment, that is not what you want. Imagine a server is running and users are depending on it. You can't destroy it. Thus, you must ensure to create your resources properly the first time round. Always work on a clean slate</p>
+
+
+						
+								   </br>							
+									<!-- <hr class="major" /> -->
 
 									<h2>Code</h2>
-									<p>You can find this on my <a href="https://github.com/devrontombacco/bastionProject">github</a> </p>
-									<p>In order to run the code you will need to do the following</p>
+									<p>You can find the code files on my <a href="https://github.com/devrontombacco/bastionProject">github</a>. In order to run it you will first need to know the following:</p>
 
 									<ul>
-										<li>Coffee</li>
-										<li>Tea</li>
-										<li>Milk</li>
+										<li>You need to know your AWS Credentials</li>
+										<li>You need to create your own Keypair to log into EC2 instances</li>
+										<li>You need to know your own IP address</li>
 									</ul>
 
+									<p>Check out the project's readme file for instructions on how to download it and run it on your machine</p>
 								</section>
 
 						</div>
