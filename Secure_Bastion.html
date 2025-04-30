@@ -77,11 +77,11 @@
 
 									<p>This is a fun project for anyone starting out as it seems easy at first, but then you need to ensure many things work together</p>
 
-									<p>Environment Variables: quickly realize for instance that if this code is meant for anyone on github to download it and run in on their local machine, you definitely can't hardcode values into your config (not to mention that its a big security risk). Some variables - like the AWS credentials - can be stored locally. But what about the user's IP and/or their keypair? You quickly realize here that it only makes sense to use environment variables</p>
+									<p><strong>Environment Variables</strong>: You quickly realize for instance that if this code is meant for anyone on github to download it and run in on their local machine, you definitely can't hardcode values into your config (not to mention that its a big security risk). Some variables - like the AWS credentials - can be stored locally. But what about the user's IP and/or their keypair? You quickly realize here that it only makes sense to use environment variables.</p>
 
-									<p>Naming Conventions: Given that there are two of everything (two subnets, two route tables, two security groups etc) you need to ensure you're using a naming convention that makes sense. You need to strike a balance between ensuring meaning is conveyed, but perhaps not making the names too long or cumbersome</p>
+									<p><strong>Naming Conventions</strong>: Given that there are two of everything (two subnets, two route tables, two security groups etc) you need to ensure you're using a naming convention that makes sense. You need to strike a balance between ensuring meaning is conveyed, but perhaps not making the names too long or cumbersome.</p>
 
-									<p>Watch out for how you create resources: When creating my EC2s I did it without attaching security groups to them! Once I then created the SGs and applied them to the EC2s, the Terraform output showed it was destroying and then recreating the resources. I learned then and there that if this were in a production environment, that is not what you want. Imagine a server is running and users are depending on it. You can't destroy it. Thus, you must ensure to create your resources properly the first time round. Always work on a clean slate</p>
+									<p><strong>Watch out for how you create resources</strong>: When creating my EC2s I did it without attaching security groups to them! Once I then created the SGs and applied them to the EC2s, the Terraform output showed it was destroying and then recreating the resources. I learned then and there that if this were in a production environment, that is not what you want. Imagine a server is running and users are depending on it. You can't destroy it. Thus, you must ensure to create your resources properly the first time round. Always work on a clean slate.</p>
 
 
 						
@@ -94,7 +94,7 @@
 									<ul>
 										<li>You need to know your AWS Credentials</li>
 										<li>You need to create your own Keypair to log into EC2 instances</li>
-										<li>You need to know your own IP address</li>
+										<li>Knowing how to check your own IP address can help</li>
 									</ul>
 
 									<p>Check out the project's readme file for instructions on how to download it and run it on your machine</p>
